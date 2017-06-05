@@ -1,0 +1,1 @@
+java -jar xx.jar --spring.profiles.active=prod
