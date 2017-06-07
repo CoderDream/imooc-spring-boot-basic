@@ -1,9 +1,12 @@
-package com.imooc.girl;
+package com.imooc.service;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.imooc.domain.Girl;
+import com.imooc.repository.GirlRepository;
 
 @Service
 public class GirlService {

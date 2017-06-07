@@ -1,8 +1,11 @@
-package com.imooc.girl;
+package com.imooc.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.imooc.domain.Girl;
+import com.imooc.repository.GirlRepository;
+import com.imooc.service.GirlService;
 
 @RestController
 public class GirlController {
@@ -37,10 +44,14 @@ public class GirlController {
 	 * @return
 	 */
 	@PostMapping(value = "/girls")
-	public Girl girlAdd(@RequestParam("cupSize") String cupSize, @RequestParam("age") Integer age) {
-		Girl girl = new Girl();
-		girl.setAge(age);
-		girl.setCupSize(cupSize);
+	public Girl girlAdd(@Valid Girl girl, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getFieldError().getDefaultMessage());
+			return null;
+		}
+		
+		girl.setAge(girl.getAge());
+		girl.setCupSize(girl.getCupSize());
 		
 		return girlRepository.save(girl);
 	}
