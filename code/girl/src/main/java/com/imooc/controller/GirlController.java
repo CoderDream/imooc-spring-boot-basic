@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,12 +16,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.imooc.aspect.HttpAspect;
 import com.imooc.domain.Girl;
 import com.imooc.repository.GirlRepository;
 import com.imooc.service.GirlService;
 
 @RestController
 public class GirlController {
+	
+	private final static Logger logger = LoggerFactory.getLogger(GirlController.class);
 	
 	@Autowired
 	private GirlRepository girlRepository;
@@ -62,7 +67,9 @@ public class GirlController {
 	 * @return
 	 */
 	@GetMapping(value = "/girls/{id}")
-	public Girl girlFindOne(@RequestParam("id") Integer id) {
+	public Girl girlFindOne(@PathVariable("id") Integer id) {
+		//System.out.println("girlFindOne");
+		logger.info("girlFindOne");
 		return girlRepository.findOne(id);
 	}
 	
