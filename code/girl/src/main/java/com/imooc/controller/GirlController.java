@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.imooc.aspect.HttpAspect;
 import com.imooc.domain.Girl;
+import com.imooc.domain.Result;
 import com.imooc.repository.GirlRepository;
 import com.imooc.service.GirlService;
 
@@ -49,16 +49,23 @@ public class GirlController {
 	 * @return
 	 */
 	@PostMapping(value = "/girls")
-	public Girl girlAdd(@Valid Girl girl, BindingResult bindingResult) {
+	public Result<Girl> girlAdd(@Valid Girl girl, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			System.out.println(bindingResult.getFieldError().getDefaultMessage());
-			return null;
+			Result<Girl> result = new Result<Girl>(); 
+			result.setCode(1);
+			result.setMsg(bindingResult.getFieldError().getDefaultMessage());
+			return result;
 		}
 		
 		girl.setAge(girl.getAge());
 		girl.setCupSize(girl.getCupSize());
 		
-		return girlRepository.save(girl);
+		Result<Girl> result = new Result<Girl>(); 
+		result.setCode(0);
+		result.setMsg("成功");
+		result.setData(girlRepository.save(girl));
+		
+		return result;
 	}
 	
 	/**
